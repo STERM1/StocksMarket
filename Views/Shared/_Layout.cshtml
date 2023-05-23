@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="~/js/jquery-1.11.3.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.bootstrap.min.js"></script>
+   
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+       
+        .navbar-inverse {
+            background-color: #2b0456;
+            border-color: #7e80bf;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Stock Market", "StockPage", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Add Stock", "StockPage", "Home")</li>
+                    <li>@Html.ActionLink("Stock Group", "StockGroup", "Home")</li>
+                    <li>@Html.ActionLink("Holiday List", "HolidayList", "Home")</li>
+                   
+                </ul>
+               
+                    <ul class="nav navbar-nav pull-right">
+
+                        <li> <Label style="margin-top:15px;margin-right:16px;color:white">@Session["LoggedInUser"].ToString() </Label></li>|
+
+                        <li> @Html.ActionLink("Logout", "Logout", null, new { @class = "glyphicon glyphicon-log-out btn-outline-warning", @name = "email", @autofocus = "", @value = "LogOut", @style = "color:white;margin-left:20px;" })</li>
+
+                    </ul>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    
+       
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("Scripts", required: false)
+    @*<script src="~/js/jquery-1.11.3.min.js"></script>*@
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+</body>
+</html>

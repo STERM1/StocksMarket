@@ -1,0 +1,377 @@
+﻿@model StocksMarket.Models.StockGrpDetails
+@using System.Data;
+
+@{
+
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Inclusion & Exclusion of Stocks in Group</h4>
+@*<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />*@
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.1em;
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate {
+        margin: 27px;
+    }
+</style>
+<script>
+     @*function SearchStock(Stockid) {
+            $.ajax({
+                url: '@Url.Action("EditStocks", "Home")',
+                type: 'post',
+                dataType: "json",
+                data: {
+                    Stockid: Stockid.id
+                },
+                success: function (stock_details) {
+
+
+                    $('#StockId').val((stock_details[0].StockId));
+                    $('#StockName').val(stock_details[0].StockName);
+                    $('#CodeR').val(stock_details[0].CodeR);
+
+
+
+
+                }
+            });
+        }*@
+</script>
+<body class="bg">
+
+
+    @using (Html.BeginForm("AddEmployee", "AddEmp", FormMethod.Post, new { }))
+    {
+    
+        <div class="row">
+
+            <div class="col-md-4 col-xs-6">
+                <label for="ex1">Select Group</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(m => m.GroupName, new SelectList(Model.lstGroup, 0), "-- Select --", new { @id = "groupName", @class = "form-control" })
+
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+
+                <div class="form-group">
+
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+                @*<label>Total Stocks:</label>  @ViewData["count"]*@
+
+
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            @using (Html.BeginForm("StockGroup", "Home", FormMethod.Post))
+            {
+
+                <br /><br />
+                <div style="margin-right:40px;margin-top:-40px;">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-9">
+                            <input type="button" value="Delete Selected" onclick="DeleteSelected()" class="btn btn-sm btn-danger" id="btnDelete" style="margin-bottom:20px" />
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-responsive table-striped" id="tblstocksgrd1">
+                        <thead>
+                            <tr>
+                                <th>@*<input type="checkbox" id="checkBoxDel" class="custom-checkbox" />*@</th>
+                                <th>Stock Id</th>
+                                <th width="18%">Stock Name</th>
+                                <th>CODE_R</th>
+
+                            </tr>
+                        </thead>
+                        @* @foreach (var element in ViewData["viewDt"] as List<StocksMarket.Models.StockDetails>)*@
+                        <tbody>
+                            @*@foreach (DataRow dRow in Model.GetStockInGrp("").Rows)
+                                {
+                                    <tr>
+
+                                        <td>@dRow["STOCK_ID"]</td>
+                                        <td>@dRow["NAME"]</td>
+                                        <td>@dRow["CODE_R"]</td>
+
+                                    </tr>
+                                }*@
+                            @*@foreach (var element in Model.lstStockGrpGrid)
+                                {
+                                    //do as needed...
+                                    <tr>
+                                        <td id="StockId_@element.STOCK_ID">@element.STOCK_ID</td>
+                                        <td id="StockName_@element.STOCK_ID">@element.STOCK_NAME</td>
+                                        <td id="CodeR_@element.STOCK_ID">@element.CODE_R</td>
+
+                                        <td><a onclick="SearchStock(this)" id=@element.STOCK_ID class="glyphicon glyphicon-pencil"></a></td>
+
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+
+
+        <div class="col-md-5 offset-md-1">
+
+            @using (Html.BeginForm("StockGroup", "Home", FormMethod.Post))
+            {
+                <div style="margin-right:40px;margin-top:-40px;">
+                    <button type="button" command="AddStock" value="Add" class="btn btn-sm btn-primary rounded-1" onclick="AddSelected()" id="addSelect"> Add To Group</button>
+                    <br /><br />
+                    <table id="DataTable" style="width:100%;" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>@*<input type="checkbox" id="checkBoxAll" class="custom-checkbox" />*@</th>
+
+                                <th>STOCK ID</th>
+                                <th>CODE_R</th>
+                                <th>STOCK NAME</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var element in Model.lstStockTransGrid)
+                            {
+                                //do as needed...
+                                <tr>
+                                    <td><input type="checkbox" name="ID" value="@element.STOCK_ID" class="custom-checkbox chkCheckBoxId" /></td>
+                                    <td id="StockId_@element.STOCK_ID">@element.STOCK_ID</td>
+                                    <td id="StockName_@element.STOCK_ID">@element.STOCK_NAME</td>
+                                    <td id="CodeR_@element.STOCK_ID">@element.CODE_R</td>
+
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+    @*<script src="~/js/jquery.dataTables.min.js"></script>
+        <script src="~/js/dataTables.bootstrap.min.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>*@
+    <script type="text/javascript">
+         
+            $('#btnDelete').hide();
+        $(document).ready(function fn() {
+
+            //$("#tblstocksgrd1").DataTable();
+
+           function Reset() {
+                $(':input')
+                    .not(':button')         // NOT THE BUTTONS.
+                    .val('');
+            }
+
+
+         //stock transition
+            $('#DataTable').DataTable({
+                "order": [[0, 'desc']]
+            });
+            $('#DataTable').show();
+            $('.collapse').removeClass('show');
+        });
+
+
+            $('#checkBoxAll').click(function () {
+                if ($(this).is(":checked")) {
+                    $(".chkCheckBoxId").prop("checked", true)
+                }
+                else {
+                    $(".chkCheckBoxId").prop("checked", false)
+                }
+            });
+
+
+
+        $('#checkBoxDel').click(function () {
+            if ($(this).is(":checked")) {
+                $(".checkClass").prop("checked", true)
+            }
+            else {
+                $(".checkClass").prop("checked", false)
+            }
+        });
+
+        //dropdown-change function
+            $("#groupName").change(function () {
+                if ($("#groupName").text != "-- Select --") {
+
+                    $("#tblstocksgrd1").DataTable().destroy();
+                   
+                    $('#btnDelete').show();
+                    var deptSelectedValue = $("#groupName").val();
+                    var url = "/Home/OnDDLChange/?GrpId=" + deptSelectedValue;
+                    //alert(deptSelectedValue);
+                    $.ajax({
+
+                        url: '@Url.Action("OnDDLChange", "Home")',
+                        type: "Get",
+                        data: { GrpId: deptSelectedValue },
+                        success: function (result) {
+                            //alert(result);
+                            var counter = 0;
+                            $('#tblstocksgrd1').show();
+                            $("#tblstocksgrd1").DataTable({
+                                bLengthChange: true,
+
+                                bFilter: true,
+                                bSort: true,
+                                bPaginate: true,
+                                data: result,
+                                columns: [
+                                    {
+
+                                        'data': 'STOCK_ID',
+                                        'sortable': true,
+                                        'searchable': true,
+                                        'render': function (STOCK_ID) {
+                                            //if (!result) {
+                                            return '<input type="checkbox" data-id="' + STOCK_ID + '"  id="chklistitem" name="chklistitem" value="' + STOCK_ID + '"/>'
+                                          //  }
+                                    //        else {
+                                            //    return '<input type="checkbox" onclick="chk_status(this)" data-id="' + STOCK_ID + '"  id="chklistitem" name="chklistitem/>'
+                                            //}
+                                        }
+                                    },
+
+                                    { 'data': 'STOCK_ID' },
+                                { 'data': 'STOCK_NAME' },
+                                    { 'data': 'CODE_R' }]
+
+                            });
+
+
+
+                        },
+                        error:function()
+                        {
+                            alert("No Records Found");
+                        }
+
+
+                    });
+                    //$.ajax(url);
+
+
+                }
+                else {
+                    alert("Please select a group")
+                }
+            });
+
+        //function chk_status(ele) {
+        //    alert("Selected data id is : " + $(ele).data('id'));
+        //}
+
+        function DeleteSelected() {
+            var deptSelectedValue = $("#groupName").val();
+            var selectedIDs = new Array();
+            var oTable = $('#tblstocksgrd1').dataTable();
+            var rowcollection = oTable.$("input[type=checkbox]:checked", { "page": "all" });
+            rowcollection.each(function (index, elem) {
+                selectedIDs.push($(elem).val());
+            });
+
+        //    $("#tblstocksgrd1 input[type=checkbox]:checked").each(function (index, data) {
+        //    if (data.checked) {
+
+        //        selectedIDs.push(this.value);
+        //    }
+        //});
+
+
+            var retVal = confirm('Are you sure want to delete? ' + selectedIDs.length + 'values');
+            if (retVal == true) {
+                var options = {};
+                options.url = "/Home/DeleteSelected";
+                options.type = "POST";
+                options.data = JSON.stringify(selectedIDs);
+                options.contentType = "application/json";
+                options.dataType = "json";
+                options.success = function (msg) {
+                    alert(msg);
+                    location.reload(true);
+                };
+                options.error = function () {
+                    alert("Error while deleting the records!");
+                };
+                $.ajax(options);
+                return true;
+            }
+            else {
+
+                return false;
+            }
+
+        }
+
+
+        function AddSelected() {
+         
+            var deptSelectedValue = $("#groupName").val();
+            var AddselectedIDs = new Array();
+            var oTable = $('#DataTable').dataTable();
+            var rowcollection = oTable.$("input[type=checkbox]:checked", { "page": "all" });
+            rowcollection.each(function (index, elem) {
+                AddselectedIDs.push($(elem).val());
+            });
+
+            var retVal1 = confirm('Are you sure want to add ' + AddselectedIDs.length + ' Stock ?');
+            if (retVal1 == true) {
+
+                var options = {};
+                options.url = "/Home/AddSelected";
+                options.type = "POST";
+                options.data = JSON.stringify(AddselectedIDs);
+                options.contentType = "application/json";
+                options.dataType = "json";
+                options.success = function (msg) {
+                    alert(msg);
+                    location.reload(true);
+                };
+                options.error = function () {
+                    alert("Error while adding the records!");
+                };
+                $.ajax(options);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+
+
+
+    </script>
+
+</body>

@@ -1,0 +1,46 @@
+﻿@model StocksMarket.Models.HolidayList
+
+@{
+    ViewBag.Title = "HolidayList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("HolidayList", "Home", FormMethod.Post))
+{
+    <div></div>
+    <div class="container">
+        <table id="DataTable" style="width:100%;margin-top:40px" class="table table-bordered table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th>DATE</th>
+                    <th>HOLIDAYS</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in Model.lstholiday)
+                {
+                    //do as needed...
+                    <tr>
+
+
+                        <td id="H_DATE">@element.H_DATE</td>
+                        <td id="H_DSC">@element.H_DSC</td>
+
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+
+
+
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="~/js/jquery.dataTables.min.js"></script>
+<script src="~/js/dataTables.bootstrap.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+

@@ -1,0 +1,279 @@
+﻿@model StocksMarket.Models.StockDetails
+
+@{
+    ViewBag.Title = "StockPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+@*<script src="~/js/jquery-1.11.3.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.bootstrap.min.js"></script>*@
+
+<script type="text/javascript">
+
+
+         function SearchStock(Stockid) {
+            $.ajax({
+                url: '@Url.Action("EditStocks", "Home")',
+                type: 'post',
+                dataType: "json",
+                data: {
+                    Stockid: Stockid.id
+                },
+                success: function (stock_details) {
+
+
+                    $('#StockId').val((stock_details[0].StockId));
+                    $('#StockName').val(stock_details[0].StockName);
+                    $('#CodeR').val(stock_details[0].CodeR);
+                    $('#CodeN').val(stock_details[0].CodeN);
+                    $('#Open').val(stock_details[0].Open);
+                    $('#LastPrice').val(stock_details[0].LastPrice);
+                  $('#Close').val(stock_details[0].Close);
+                    $('#Ticker_name').val(stock_details[0].Ticker_Name);
+                    $('#Graphic_Name').val(stock_details[0].Graphic_Name);
+                    $('#Stack_name').val(stock_details[0].Stack_Name);
+                    $('#ExchangeId').val(stock_details[0].ExchangeId);
+                    $('#InstrumentId').val(stock_details[0].INSTRUMENT_ID);
+                    $('#group_name').val(stock_details[0].group_Name);
+                    $('#Active').val(stock_details[0].ACTIVE);
+                    $('#Ipo').val(stock_details[0].Ipo);
+                    $('#lblgroup').hide();
+                    $('#group_name').hide();
+            $('#btnSave').val("Update");
+                }
+            });
+        }
+</script>
+
+
+
+<body class="bg">
+    @using (Html.BeginForm("StockPage", "Home", FormMethod.Post, new { }))
+    {
+        @*<button class="btn btn-primary" data-toggle="collapse" data-target="#demo" id="btnAddStock" aria-expanded="false" aria-controls="collapse" style="margin-top:20px;">ADD STOCK IPO</button>*@
+        <div id="demo">
+            <div class="container" style="margin-top:50px">
+                <div class="row gap">
+
+                    <div class="row">
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Stock Name</label>
+                            <div class="form-group">
+                                @Html.HiddenFor(m => m.StockId, new { @id = "StockId", @name = "id" })
+                                @Html.TextBoxFor(m => m.StockName, new { @id = "StockName", @class = "form-control", @placeholder = "Enter StockName", @name = "StockName", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Code R</label>
+                            <div class="form-group">
+
+                                @Html.TextBoxFor(m => m.CodeR, new { @id = "CodeR", @class = "form-control", @placeholder = "Enter CodeR", @name = "CodeR", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Code N</label>
+                            <div class="form-group">
+
+                                @Html.TextBoxFor(m => m.CodeN, new { @id = "CodeN", @class = "form-control", @placeholder = "Enter CodeN", @name = "CodeN", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Open</label>
+                            <div class="form-group">
+
+                                @Html.TextBoxFor(m => m.Open, new { @id = "Open", @class = "form-control", @placeholder = "Enter Open", @name = "Open", @required = "required" })
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">LastPrice</label>
+                            <div class="form-group">
+
+                                @Html.TextBoxFor(m => m.LastPrice, new { @id = "LastPrice", @class = "form-control", @placeholder = "Enter LastPrice", @name = "LastPrice", @required = "required" })
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Close</label>
+                            <div class="form-group">
+
+                                @Html.TextBoxFor(m => m.Close, new { @id = "Close", @class = "form-control", @placeholder = "Enter Close", @name = "Close", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Ticker name</label>
+                            <div class="form-group">
+
+                                @Html.TextBoxFor(m => m.Ticker_Name, new { @id = "Ticker_name", @class = "form-control", @placeholder = "Enter Ticker name", @name = "Ticker_name", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Graphic Name</label>
+                            <div class="form-group">
+
+                                @Html.TextBoxFor(m => m.Graphic_Name, new { @id = "Graphic_Name", @class = "form-control", @placeholder = "Enter Graphic Name", @name = "Graphic_Name", @required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Stack name</label>
+                            <div class="form-group">
+
+                                @Html.TextBoxFor(m => m.Stack_Name, new { @id = "Stack_name", @class = "form-control", @placeholder = "Enter Stack name", @name = "Stack_name", @required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Decimal Value</label>
+                            <div class="form-group">
+
+                                @Html.TextBoxFor(m => m.Decimal_Value, new { @id = "Decimal_Value", @class = "form-control", @Value = "2", @name = "Decimal_Value", @required = "required" })
+                            </div>
+                        </div>
+                       
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">IPO</label>
+                            <div class="form-group">
+
+                                @Html.DropDownListFor(m => m.Ipo, new SelectList(Model.lstIpo, 0), new { id = "Ipo", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2" id="lbl">Active</label>
+                            <div class="form-group">
+
+                                @Html.DropDownListFor(m => m.Active, new SelectList(Model.lstActive, 0), new { id = "Active", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Instrument Id</label>
+                            <div class="form-group">
+
+                                @Html.DropDownListFor(m => m.InstrumentId, new SelectList(Model.lstInstrumentId, 0), new { id = "InstrumentId", @class = "form-control" })
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2">Exchange Id</label>
+                            <div class="form-group">
+
+                                @Html.DropDownListFor(m => m.ExchangeId, new SelectList(Model.lstExchangeId, 0), new { id = "ExchangeId", @class = "form-control" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="ex2" id="lblgroup">Select Group</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.Group_Name, new SelectList(Model.lst_Group, 0), "-- Select --", new { @id = "group_name", @class = "form-control" })
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2 col-xs-6 col-md-offset-3">
+                        <label for="ex2"></label>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <input type="submit" id="btnSave" Text="Save Record" name="command" class="btn btn-sm btn-primary" value="Save" />
+                              
+                                <input type="reset" id="btnReset" Text="Reset" name="command" class="btn btn-sm btn-danger" value="Reset" onclick="CallReset()" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    }
+
+    @using (Html.BeginForm("StockPage", "Home", FormMethod.Get, new { }))
+    {
+
+        <div>
+            <table class="table table-bordered table-responsive table-striped" style="display: none; " id="tblstocksgrd">
+                <thead>
+                    <tr>
+                        <th>Stock Id</th>
+                        <th>Stock</th>
+                        <th>Reuters Code</th>
+                        <th>Cogencies Code</th>
+                        <th>Open</th>
+                        <th>Last Price</th>
+                        <th>Change</th>
+                        @*<th>Percent Change</th>*@
+                        <th>Close</th>
+                        <th>Stack Name</th>
+                        <th>Graphic Name</th>
+                        <th>Ticker Name</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                @* @foreach (var element in ViewData["viewDt"] as List<StocksMarket.Models.StockDetails>)*@
+                <tbody>
+                    @foreach (var element in Model.lstStockGrid)
+                    {
+                        //do as needed...
+                        <tr>
+                            <td id="StockId_@element.StockId">@element.StockId</td>
+                            <td id="StockName_@element.StockId">@element.StockName</td>
+                            <td id="CodeR_@element.StockId">@element.CodeR</td>
+                            <td id="CodeN_@element.StockId">@element.CodeN</td>
+                            <td id="Open_@element.StockId">@element.Open</td>
+                            <td id="LastPrice_@element.StockId">@element.LastPrice</td>
+                            <td id="Change_@element.StockId">@element.Change</td>
+                            @*<td id="PercentChange_@element.StockId">@element.PercentChange</td>*@
+                            <td id="Close_@element.StockId">@element.Close</td>
+                            <td id="Stack_Name_@element.StockId">@element.Stack_Name</td>
+                            <td id="Graphic_Name_@element.StockId">@element.Graphic_Name</td>
+                            <td id="Ticker_Name_@element.StockId">@element.Ticker_Name</td>
+                            <td><a onclick="SearchStock(this)" id=@element.StockId class="glyphicon glyphicon-pencil"></a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+
+    <script src="~/js/jquery-1.11.3.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblstocksgrd').DataTable({
+                "order": [[0, 'desc']]
+            });
+            $('#tblstocksgrd').show();
+            $('.collapse').removeClass('show');
+        });
+
+
+    </script>
+</body>
+
+
